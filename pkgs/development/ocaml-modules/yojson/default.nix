@@ -1,7 +1,7 @@
-{ stdenv, fetchzip, ocaml, findlib, cppo, easy-format, biniou }:
+{ stdenv, fetchzip, ocaml, findlib, cppo, easy-format, biniou, jbuilder }:
 let
   pname = "yojson";
-  version = "1.2.3";
+  version = "1.4.0";
 in
 stdenv.mkDerivation {
 
@@ -9,20 +9,14 @@ stdenv.mkDerivation {
 
   src = fetchzip {
     url = "https://github.com/mjambon/${pname}/archive/v${version}.tar.gz";
-    sha256 = "10dvkndgwanvw4agbjln7kgb1n9s6lii7jw82kwxczl5rd1sgmvl";
+    sha256 = "0rzn4yihfi0psd2qmgrx5fvwpby87sqx4zws3ijf49f7wbpycccv";
   };
 
-  buildInputs = [ ocaml findlib ];
+  buildInputs = [ ocaml findlib jbuilder ];
 
   propagatedBuildInputs = [ cppo easy-format biniou ];
 
-  createFindlibDestdir = true;
-
-  makeFlags = "PREFIX=$(out)";
-
-  preBuild = ''
-    mkdir $out/bin
-  '';
+  inherit (jbuilder) installPhase;
 
   meta = with stdenv.lib; {
     description = "An optimized parsing and printing library for the JSON format";
