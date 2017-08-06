@@ -1,7 +1,7 @@
-{stdenv, fetchurl, ocaml, findlib, easy-format}:
+{ stdenv, fetchFromGitHub, ocaml, findlib, easy-format, jbuilder }:
 let
   pname = "biniou";
-  version = "1.0.9";
+  version = "1.2.0";
   webpage = "http://mjambon.com/${pname}.html";
 in
 
@@ -11,20 +11,16 @@ stdenv.mkDerivation rec {
 
   name = "${pname}-${version}";
 
-  src = fetchurl {
-    url = "http://mjambon.com/releases/${pname}/${name}.tar.gz";
-    sha256 = "14j3hrhbjqxbizr1pr8fcig9dmfzhbjjwzwyc99fcsdic67w8izb";
+  src = fetchFromGitHub {
+    owner = "mjambon";
+    repo = "biniou";
+    rev = "v${version}";
+    sha256 = "0mjpgwyfq2b2izjw0flmlpvdjgqpq8shs89hxj1np2r50csr8dcb";
   };
 
-  buildInputs = [ ocaml findlib easy-format ];
+  buildInputs = [ ocaml findlib easy-format jbuilder ];
 
-  createFindlibDestdir = true;
-
-  makeFlags = "PREFIX=$(out)";
-
-  preBuild = ''
-    mkdir $out/bin
-  '';
+  inherit (jbuilder) installPhase;
 
   meta = with stdenv.lib; {
     description = "A binary data format designed for speed, safety, ease of use and backward compatibility as protocols evolve";
