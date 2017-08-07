@@ -28791,12 +28791,13 @@ EOF
 
   Lasagne = buildPythonPackage rec {
     name = "Lasagne-${version}";
-    version = "0.1";
-    disabled = isPy3k;
+    version = "0.2-dev";
 
-    src = pkgs.fetchurl {
-      url = "mirror://pypi/l/lasagne/${name}.tar.gz";
-      sha256 = "0cqj86rdm6c7y5vq3i13qy76fg5xi3yjp4r0hpqy8hvynv54wqrw";
+    src = pkgs.fetchFromGitHub {
+      owner = "Lasagne";
+      repo = "Lasagne";
+      rev = "359ea1b9f12678c3523c0cb100f646528d49df9e";
+      sha256 = "11pb0fkqw8wa547y4rkhlfl565xz8q66zia2gb6hmv4fvrfi3h8z";
     };
 
     propagatedBuildInputs = with self; [
